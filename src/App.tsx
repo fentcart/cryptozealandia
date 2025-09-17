@@ -276,74 +276,101 @@ function App() {
       <section id="coins" className="py-24 px-6 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <h2 className="text-4xl md:text-5xl font-bold gradient-text">
-                Available Cryptocurrencies
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold gradient-text text-center">
+                My Available Inventory
               </h2>
               {loading && <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />}
             </div>
-            <p className="text-gray-600 text-xl mb-8">
-              Real-time inventory with live market pricing
+            <p className="text-gray-600 text-xl mb-4 max-w-2xl mx-auto">
+              Ready to sell immediately — all coins on hand with live market pricing
             </p>
+            <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full font-medium text-sm border border-green-200">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span>Available for immediate sale</span>
+            </div>
             {lastUpdated && (
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mt-4">
                 <RefreshCw className="w-4 h-4" />
-                <span>Last updated: {lastUpdated.toLocaleTimeString()}</span>
+                <span>Prices updated: {lastUpdated.toLocaleTimeString()}</span>
               </div>
             )}
           </div>
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
             {coins.map((coin, index) => (
               <div
                 key={index}
-                className="coin-card bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-500 text-center relative overflow-hidden group"
+                className="coin-card bg-white p-6 lg:p-8 rounded-3xl shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-500 text-center relative overflow-hidden group"
                 style={{animationDelay: `${index * 0.1}s`}}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10">
-                  <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <div className="w-20 h-20 lg:w-24 lg:h-24 mx-auto mb-4 lg:mb-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
                     <img
                       src={`https://unpkg.com/cryptocurrency-icons@0.18.1/svg/color/${coin.symbol.toLowerCase()}.svg`}
                       alt={coin.name}
-                      className="w-14 h-14"
+                      className="w-10 h-10 lg:w-14 lg:h-14"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.src = `https://via.placeholder.com/56/3B82F6/FFFFFF?text=${coin.symbol}`;
                       }}
                     />
                   </div>
-                  <h3 className="text-2xl font-bold mb-2 text-gray-900">{coin.name}</h3>
-                  <p className="text-gray-500 uppercase tracking-wider text-sm mb-4 font-semibold">
+                  <h3 className="text-xl lg:text-2xl font-bold mb-2 text-gray-900">{coin.name}</h3>
+                  <p className="text-gray-500 uppercase tracking-wider text-xs lg:text-sm mb-4 font-semibold">
                     {coin.symbol}
                   </p>
-                  <div className="mb-4">
-                    <div className="text-3xl font-bold text-blue-600 mb-2">
+                  
+                  {/* Current Market Price */}
+                  <div className="mb-4 pb-4 border-b border-gray-100">
+                    <div className="text-sm text-gray-500 mb-1">Current Market Price</div>
+                    <div className="text-2xl lg:text-3xl font-bold text-blue-600 mb-2">
                       {loading ? (
                         <div className="flex items-center justify-center">
-                          <Loader2 className="w-6 h-6 animate-spin" />
+                          <Loader2 className="w-5 h-5 lg:w-6 lg:h-6 animate-spin" />
                         </div>
                       ) : (
                         <>
                           {formatPrice(coin.price)}
-                          <span className="text-base text-gray-500 font-normal ml-1">NZD</span>
+                          <span className="text-sm lg:text-base text-gray-500 font-normal ml-1">NZD</span>
                         </>
                       )}
                     </div>
                     {coin.change24h !== undefined && !loading && (
-                      <div className={`text-sm font-medium ${coin.change24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {coin.change24h >= 0 ? '↗' : '↘'} {Math.abs(coin.change24h).toFixed(2)}%
+                      <div className={`text-sm font-medium flex items-center justify-center gap-1 ${coin.change24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        <span>{coin.change24h >= 0 ? '↗' : '↘'}</span>
+                        <span>{Math.abs(coin.change24h).toFixed(2)}% (24h)</span>
                       </div>
                     )}
                   </div>
-                  <div className="text-sm text-gray-600 bg-gray-50 rounded-xl p-3">
-                    <span className="font-medium">Available: </span>
-                    <span className="font-bold text-gray-800">
-                      {coin.coins.toLocaleString()} {coin.symbol}
-                    </span>
+
+                  {/* Inventory Available */}
+                  <div className="space-y-3">
+                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border border-green-100">
+                      <div className="text-sm text-green-700 font-medium mb-1">On Hand & Ready to Sell</div>
+                      <div className="text-lg font-bold text-green-800">
+                        {coin.coins.toLocaleString()} {coin.symbol}
+                      </div>
+                      {!loading && coin.price > 0 && (
+                        <div className="text-sm text-green-600 font-medium mt-2">
+                          ≈ {formatPrice(coin.coins * coin.price)} NZD
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+          
+          <div className="text-center mt-16">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-blue-50 rounded-2xl p-6 border border-blue-100">
+              <div className="flex items-center gap-2 text-blue-700">
+                <MessageCircle className="w-5 h-5" />
+                <span className="font-semibold">Ready to buy?</span>
+              </div>
+              <span className="text-gray-600">Message me directly for instant transactions at current market rates</span>
+            </div>
           </div>
         </div>
       </section>
@@ -375,9 +402,6 @@ function App() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-4 mb-6 md:mb-0">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl flex items-center justify-center font-bold text-white">
-                CZ
-              </div>
               <span className="text-xl font-bold gradient-text">CryptoZealandia</span>
             </div>
             <div className="text-gray-500 text-center md:text-right">
