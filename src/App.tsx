@@ -18,7 +18,7 @@ function App() {
     { name: "Litecoin", symbol: "LTC", price: 0, coins: 27.02, slug: "litecoin" },
     { name: "Tether", symbol: "USDT", price: 0, coins: 5549.7, slug: "tether" },
     { name: "Tron", symbol: "TRX", price: 0, coins: 50720.9, slug: "tron" },
-    { name: "BNB", symbol: "BNB", price: 0, coins: 3.3803, slug: "bnb" },
+    { name: "BNB", symbol: "BNB", price: 0, coins: 3.3803, slug: "binancecoin" },
     { name: "Cardano", symbol: "ADA", price: 0, coins: 5116.1, slug: "cardano" },
     { name: "Solana", symbol: "SOL", price: 0, coins: 20.8537, slug: "solana" },
     { name: "Polkadot", symbol: "DOT", price: 0, coins: 179.37, slug: "polkadot" },
