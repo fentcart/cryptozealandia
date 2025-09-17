@@ -169,9 +169,6 @@ function App() {
       <nav className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-blue-100">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3 animate-slide-up">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl flex items-center justify-center font-bold text-white text-lg shadow-lg animate-pulse-gentle">
-              CZ
-            </div>
             <span className="text-2xl font-bold gradient-text">CryptoZealandia</span>
           </div>
           <div className="hidden md:flex items-center space-x-8">
